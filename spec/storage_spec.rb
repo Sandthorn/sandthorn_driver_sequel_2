@@ -52,7 +52,8 @@ module SandthornDriverSequel
     def create_event
       aggregate_table_id = create_aggregate
       data = {
-          aggregate_table_id: aggregate_table_id,
+          #aggregate_table_id: aggregate_table_id,
+          aggregate_id: "foo",
           aggregate_version: 1,
           event_name: "foo",
           event_data: "bar",

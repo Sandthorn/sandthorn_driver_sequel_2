@@ -40,11 +40,12 @@ module SandthornDriverSequel
     end
 
     def select_columns
-      rel = Sequel.qualify(storage.events_table_name, :aggregate_version)
+      aggregate_version = Sequel.qualify(storage.events_table_name, :aggregate_version)
+      aggregate_id = Sequel.qualify(storage.events_table_name, :aggregate_id)
       [
         :aggregate_type,
-        rel,
-        :aggregate_id,
+        aggregate_version,
+        aggregate_id,
         :sequence_number,
         :event_name,
         :event_data,
@@ -58,9 +59,9 @@ module SandthornDriverSequel
 
     def add_aggregate_types(query, aggregate_types)
       if aggregate_types.any?
-        query.join(storage.aggregates, id: :aggregate_table_id, aggregate_type: aggregate_types)
+        query.join(storage.aggregates, aggregate_id: :aggregate_id, aggregate_type: aggregate_types)
       else
-        query.join(storage.aggregates, id: :aggregate_table_id)
+        query.join(storage.aggregates, aggregate_id: :aggregate_id)
       end
     end
 

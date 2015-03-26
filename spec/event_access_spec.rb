@@ -70,7 +70,7 @@ module SandthornDriverSequel
           access.store_events(aggregate, events)
 
           stored_events = access.find_events_by_aggregate_id(aggregate.aggregate_id)
-          expect(stored_events.map(&:aggregate_table_id)).to all(eq(aggregate.id))
+          expect(stored_events.map(&:aggregate_id)).to all(eq(aggregate.aggregate_id))
           expect(stored_events.size).to eq(events.size)
           expect(stored_events).to all(respond_to(:merge))
         end

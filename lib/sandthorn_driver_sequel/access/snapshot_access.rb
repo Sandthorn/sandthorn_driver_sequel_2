@@ -2,8 +2,8 @@ module SandthornDriverSequel
   class SnapshotAccess < Access::Base
 
     def find_by_aggregate_id(aggregate_id)
-      aggregate = aggregates.find_by_aggregate_id(aggregate_id)
-      storage.snapshots.first(aggregate_table_id: aggregate.id)
+      #aggregate = aggregates.find_by_aggregate_id(aggregate_id)
+      storage.snapshots.first(aggregate_id: aggregate_id)
     end
 
     def find(snapshot_id)
@@ -22,9 +22,10 @@ module SandthornDriverSequel
       aggregate_types.map!(&:to_s)
       snapshot_version = Sequel.qualify(storage.snapshots_table_name, :aggregate_version)
       aggregate_version = Sequel.qualify(storage.aggregates_table_name, :aggregate_version)
-      query = storage.aggregates.left_outer_join(storage.snapshots, aggregate_table_id: :id)
+      aggregate_id = Sequel.qualify(storage.aggregates_table_name, :aggregate_id)
+      query = storage.aggregates.left_outer_join(storage.snapshots, aggregate_id: :aggregate_id)
       query = query.select { (aggregate_version - snapshot_version).as(distance) }
-      query = query.select_append(:aggregate_id, :aggregate_type)
+      query = query.select_append(aggregate_id, :aggregate_type)
       query = query.where { (aggregate_version - coalesce(snapshot_version, 0)) > max_event_distance }
       if aggregate_types.any?
         query = query.where(aggregate_type: aggregate_types)
@@ -55,7 +56,7 @@ module SandthornDriverSequel
 
     def insert_snapshot(aggregate, snapshot_data)
       data = build_snapshot(snapshot_data)
-      data[:aggregate_table_id] = aggregate.id
+      data[:aggregate_id] = aggregate.aggregate_id
       storage.snapshots.insert(data)
     end
 

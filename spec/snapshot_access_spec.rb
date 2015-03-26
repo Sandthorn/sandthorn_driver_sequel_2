@@ -37,7 +37,8 @@ module SandthornDriverSequel
         aggregate.update(aggregate_version: 1)
         snapshot = access.find_by_aggregate_id(aggregate.aggregate_id)
         expected = {
-            aggregate_table_id: aggregate.id,
+           # aggregate_table_id: aggregate.id,
+            aggregate_id: aggregate.aggregate_id,
             aggregate_version: 0,
             snapshot_data: "data",
             id: snapshot.id
@@ -61,7 +62,7 @@ module SandthornDriverSequel
 
             snapshot = access.find_by_aggregate_id(aggregate_id)
             expect(snapshot).to_not be_nil
-            expect(snapshot.aggregate_table_id).to eq(aggregate_table_id)
+            expect(snapshot.aggregate_id).to eq(aggregate_id)
             expect(snapshot.snapshot_data).to eq("data")
             expect(snapshot.aggregate_version).to eq(0)
           end
@@ -77,7 +78,7 @@ module SandthornDriverSequel
 
               snapshot = access.find_by_aggregate_id(aggregate_id)
               expect(snapshot).to_not be_nil
-              expect(snapshot.aggregate_table_id).to eq(aggregate.id)
+              expect(snapshot.aggregate_id).to eq(aggregate.aggregate_id)
               expect(snapshot.snapshot_data).to eq("other_data")
               expect(snapshot.aggregate_version).to eq(2)
             end

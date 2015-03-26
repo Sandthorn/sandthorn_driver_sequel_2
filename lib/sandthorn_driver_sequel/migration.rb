@@ -51,16 +51,19 @@ module SandthornDriverSequel
       events_migration_0 = "#{events_table_name}-20130308"
       unless has_been_migrated?(events_migration_0)
         driver.execute_in_transaction do |db|
-          aggr_table = aggregates_table_name
+          #aggr_table = aggregates_table_name
           db.create_table(events_table_name) do
             primary_key :sequence_number
-            foreign_key :aggregate_table_id, aggr_table, on_update: :cascade
+            #foreign_key :aggregate_table_id, aggr_table, on_update: :cascade
+            String :aggregate_id, fixed: true, size: 36, null: false
             Integer :aggregate_version, null: false
             String :event_name, size: 255, null: false
             String :event_data, text: true, null: true
             DateTime :timestamp, null: false
 
             index [:event_name]
+            index [:aggregate_id]
+            index [:aggregate_id, :aggregate_version], unique: true
           end
           was_migrated events_migration_0, db
         end
@@ -70,8 +73,8 @@ module SandthornDriverSequel
       unless has_been_migrated?(events_migration_1)
         driver.execute_in_transaction do |db|
           db.alter_table events_table_name do
-            add_index [:aggregate_table_id]
-            add_index [:aggregate_table_id,:aggregate_version], unique: true
+            #add_index [:aggregate_table_id]
+            #add_index [:aggregate_table_id,:aggregate_version], unique: true
           end
           was_migrated events_migration_1, db
         end
@@ -81,13 +84,15 @@ module SandthornDriverSequel
       snapshot_migration_0 = "#{snapshots_table_name}-20130312"
       unless has_been_migrated?(snapshot_migration_0)
         driver.execute_in_transaction do |db|
-          aggr_table = aggregates_table_name
+          #aggr_table = aggregates_table_name
           db.create_table(snapshots_table_name) do
             primary_key :id
             Integer :aggregate_version, null: false
             String :snapshot_data, text: true, null: false
-            foreign_key :aggregate_table_id, aggr_table, on_delete: :cascade, on_update: :cascade
-            index [:aggregate_table_id], unique: true
+            String :aggregate_id, fixed: true, size: 36, null: false
+            #foreign_key :aggregate_table_id, aggr_table, on_delete: :cascade, on_update: :cascade
+            #index [:aggregate_table_id], unique: true
+            index [:aggregate_id], unique: true
           end
           was_migrated snapshot_migration_0, db
         end

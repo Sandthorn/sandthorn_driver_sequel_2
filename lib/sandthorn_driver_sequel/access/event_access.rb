@@ -14,13 +14,15 @@ module SandthornDriverSequel
 
     def find_events_by_aggregate_id(aggregate_id)
       aggregate_version = Sequel.qualify(storage.events_table_name, :aggregate_version)
+      aggregate_aggregate_id = Sequel.qualify(storage.aggregates_table_name, :aggregate_id)
+      events_aggregate_id = Sequel.qualify(storage.events_table_name, :aggregate_id)
       wrap(storage.events
-        .join(storage.aggregates, id: :aggregate_table_id)
-        .where(aggregate_id: aggregate_id)
+        .join(storage.aggregates, aggregate_id: :aggregate_id)
+        .where(events_aggregate_id => aggregate_aggregate_id)
         .select(
           :sequence_number,
-          :aggregate_id,
-          :aggregate_table_id,
+          aggregate_aggregate_id,
+          #:aggregate_table_id,
           aggregate_version,
           :event_name,
           :event_data,
@@ -31,9 +33,9 @@ module SandthornDriverSequel
     # Returns events that occurred after the given snapshot
     def after_snapshot(snapshot)
       _aggregate_version = snapshot.aggregate_version
-      aggregate_table_id = snapshot.aggregate_table_id
+      aggregate_id = snapshot.aggregate_id
       wrap(storage.events
-        .where(aggregate_table_id: aggregate_table_id)
+        .where(aggregate_id: aggregate_id)
         .where { aggregate_version > _aggregate_version }.all)
     end
 
@@ -52,7 +54,7 @@ module SandthornDriverSequel
 
     def build_event_data(aggregate, timestamp, event)
       {
-          aggregate_table_id: aggregate.id,
+          aggregate_id: aggregate.aggregate_id,
           aggregate_version: event.aggregate_version,
           event_name: event.event_name,
           event_data: event.event_data,
