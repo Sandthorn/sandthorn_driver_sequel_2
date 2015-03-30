@@ -4,16 +4,16 @@ module SandthornDriverSequel
 	describe Migration do
 		def check_tables context = nil
 			events = :events
-			aggregates = :aggregates
+			#aggregates = :aggregates
 			snapshots = :snapshots
 			if context
 				events = "#{context}_#{events}".to_sym
-				aggregates = "#{context}_#{aggregates}".to_sym
+				#aggregates = "#{context}_#{aggregates}".to_sym
 				snapshots = "#{context}_#{snapshots}".to_sym
 			end
 			migration.driver.execute do |db|
 				expect(db.table_exists? events).to be_truthy, "expected table :#{events} to exist, but it didn't"
-				expect(db.table_exists? aggregates).to be_truthy, "expected table :#{aggregates} to exist, but it didn't"
+			#	expect(db.table_exists? aggregates).to be_truthy, "expected table :#{aggregates} to exist, but it didn't"
 				expect(db.table_exists? snapshots).to be_truthy, "expected table :#{snapshots} to exist, but it didn't"
 			end
 		end

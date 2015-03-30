@@ -11,11 +11,11 @@ module SandthornDriverSequel
     end
 
     def record_snapshot(aggregate_id, snapshot_data)
-      aggregate = aggregates.find_by_aggregate_id!(aggregate_id)
+      #aggregate = aggregates.find_by_aggregate_id!(aggregate_id)
       previous_snapshot = find_by_aggregate_id(aggregate_id)
-      if perform_snapshot?(aggregate, previous_snapshot)
-        perform_snapshot(aggregate, previous_snapshot, snapshot_data)
-      end
+      #if perform_snapshot?(aggregate, previous_snapshot)
+      perform_snapshot(aggregate_id, previous_snapshot, snapshot_data)
+      #end
     end
 
     def obsolete(aggregate_types: [], max_event_distance: 100)
@@ -45,18 +45,18 @@ module SandthornDriverSequel
       aggregate.aggregate_version > snapshot.aggregate_version
     end
 
-    def perform_snapshot(aggregate, snapshot, snapshot_data)
-      check_snapshot_version!(aggregate, snapshot_data)
-      if valid_snapshot?(snapshot)
-        update_snapshot(snapshot, snapshot_data)
+    def perform_snapshot(aggregate_id, previous_snapshot, snapshot_data)
+      #check_snapshot_version!(aggregate, snapshot_data)
+      if valid_snapshot?(previous_snapshot)
+        update_snapshot(previous_snapshot, snapshot_data)
       else
-        insert_snapshot(aggregate, snapshot_data)
+        insert_snapshot(aggregate_id, snapshot_data)
       end
     end
 
-    def insert_snapshot(aggregate, snapshot_data)
+    def insert_snapshot(aggregate_id, snapshot_data)
       data = build_snapshot(snapshot_data)
-      data[:aggregate_id] = aggregate.aggregate_id
+      data[:aggregate_id] = aggregate_id
       storage.snapshots.insert(data)
     end
 
@@ -74,7 +74,7 @@ module SandthornDriverSequel
 
     def update_snapshot(snapshot, snapshot_data)
       data = build_snapshot(snapshot_data)
-      storage.snapshots.where(id: snapshot.id).update(data)
+      storage.snapshots.where(aggregate_id: snapshot.id).update(data)
     end
 
     def check_snapshot_version!(aggregate, snapshot_data)

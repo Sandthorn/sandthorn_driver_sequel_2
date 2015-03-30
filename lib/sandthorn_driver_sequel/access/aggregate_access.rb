@@ -3,6 +3,7 @@ module SandthornDriverSequel
 
     def find_or_register(aggregate_id, aggregate_type)
       if aggregate = find_by_aggregate_id(aggregate_id)
+        #puts "FOUND AGGREGATE #{aggregate_id} #{aggregate.inspect}"
         aggregate
       else
         register_aggregate(aggregate_id, aggregate_type)
@@ -43,7 +44,7 @@ module SandthornDriverSequel
       if aggregate_type
         aggs = aggs.where(aggregate_type: aggregate_type.to_s)
       end
-      aggs.order(:id).select_map(:aggregate_id)
+      aggs.select_map(:aggregate_id)
     end
 
   end

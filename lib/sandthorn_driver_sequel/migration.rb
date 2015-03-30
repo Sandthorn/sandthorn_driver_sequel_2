@@ -9,7 +9,7 @@ module SandthornDriverSequel
     end
     def migrate!
       ensure_migration_table!
-      aggregates
+      #aggregates
       events
       snapshots
     end
@@ -18,35 +18,35 @@ module SandthornDriverSequel
       driver.execute do |db|
         db[snapshots_table_name].truncate
         db[events_table_name].truncate
-        db[aggregates_table_name].truncate
+      #  db[aggregates_table_name].truncate
       end
     end
-    def aggregates
-      aggr_migration_0 = "#{aggregates_table_name}-20130308"
-      unless has_been_migrated?(aggr_migration_0)
-        driver.execute_in_transaction do |db|
-          db.create_table(aggregates_table_name) do
-            primary_key :id
-            String :aggregate_id, fixed: true, size: 36, null: false
-            Integer :aggregate_version, null: false
-            String :aggregate_type, size: 255, null: false
-            index [:aggregate_type]
-            index [:aggregate_type, :aggregate_id], unique: true
-            index [:aggregate_id], unique: true
-          end
-          was_migrated aggr_migration_0, db
-        end
-      end
-      aggr_migration_1 = "#{aggregates_table_name}-20141024"
-      unless has_been_migrated?(aggr_migration_1)
-        driver.execute do |db|
-          db.alter_table(aggregates_table_name) do
-            set_column_default :aggregate_version, 0
-          end
-        end
-      end
+    # def aggregates
+    #   aggr_migration_0 = "#{aggregates_table_name}-20130308"
+    #   unless has_been_migrated?(aggr_migration_0)
+    #     driver.execute_in_transaction do |db|
+    #       db.create_table(aggregates_table_name) do
+    #         #primary_key :id
+    #         String :aggregate_id, fixed: true, size: 36, null: false, :primary_key => true
+    #         String :aggregate_type, size: 255, null: false
+    #         Integer :aggregate_version, null: false
+    #         index [:aggregate_type]
+    #         index [:aggregate_type, :aggregate_id], unique: true
+    #         index [:aggregate_id], unique: true
+    #       end
+    #       was_migrated aggr_migration_0, db
+    #     end
+    #   end
+      # aggr_migration_1 = "#{aggregates_table_name}-20141024"
+      # unless has_been_migrated?(aggr_migration_1)
+      #   driver.execute do |db|
+      #     db.alter_table(aggregates_table_name) do
+      #       set_column_default :aggregate_version, 0
+      #     end
+      #   end
+      # end
 
-    end
+    #end
     def events
       events_migration_0 = "#{events_table_name}-20130308"
       unless has_been_migrated?(events_migration_0)
@@ -57,10 +57,12 @@ module SandthornDriverSequel
             #foreign_key :aggregate_table_id, aggr_table, on_update: :cascade
             String :aggregate_id, fixed: true, size: 36, null: false
             Integer :aggregate_version, null: false
+            String :aggregate_type, size: 255, null: false
             String :event_name, size: 255, null: false
             String :event_data, text: true, null: true
             DateTime :timestamp, null: false
 
+            index [:aggregate_type]
             index [:event_name]
             index [:aggregate_id]
             index [:aggregate_id, :aggregate_version], unique: true

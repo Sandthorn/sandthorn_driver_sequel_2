@@ -3,30 +3,30 @@ module SandthornDriverSequel
     # = EventAccess
     # Reads and writes events.
 
-    def store_events(aggregate, events)
+    def store_events(events)
       events = Utilities.array_wrap(events)
       timestamp = Time.now.utc
       events.each do |event|
-        store_event(aggregate, timestamp, event)
+        store_event(timestamp, event)
       end
-      aggregate.save
+      #puts aggregate.inspect
+#      aggregate.save
     end
 
     def find_events_by_aggregate_id(aggregate_id)
-      aggregate_version = Sequel.qualify(storage.events_table_name, :aggregate_version)
-      aggregate_aggregate_id = Sequel.qualify(storage.aggregates_table_name, :aggregate_id)
-      events_aggregate_id = Sequel.qualify(storage.events_table_name, :aggregate_id)
-      wrap(storage.events
-        .join(storage.aggregates, aggregate_id: :aggregate_id)
-        .where(events_aggregate_id => aggregate_aggregate_id)
+      #aggregate_version = Sequel.qualify(storage.events_table_name, :aggregate_version)
+      #aggregate_aggregate_id = Sequel.qualify(storage.aggregates_table_name, :aggregate_id)
+      #events_aggregate_id = Sequel.qualify(storage.events_table_name, :aggregate_id)
+      wrap(storage.events.where(:aggregate_id => aggregate_id)
         .select(
           :sequence_number,
-          aggregate_aggregate_id,
-          #:aggregate_table_id,
-          aggregate_version,
+          :aggregate_id,
+          :aggregate_version,
+          :aggregate_type,
           :event_name,
           :event_data,
           :timestamp)
+        .order(:sequence_number)
         .all)
     end
 
@@ -45,6 +45,16 @@ module SandthornDriverSequel
       wrap(query_builder.events)
     end
 
+    # Returns aggregate ids.
+    # @param aggregate_type, optional,
+    def aggregate_ids(aggregate_type: nil)
+      events = storage.events
+      if aggregate_type
+        events = events.where(aggregate_type: aggregate_type.to_s)
+      end
+      events.select_map(:aggregate_id).uniq
+    end
+
     private
 
     def wrap(arg)
@@ -52,10 +62,11 @@ module SandthornDriverSequel
       events.map { |e| EventWrapper.new(e.values) }
     end
 
-    def build_event_data(aggregate, timestamp, event)
+    def build_event_data(timestamp, event)
       {
-          aggregate_id: aggregate.aggregate_id,
+          aggregate_id: event.aggregate_id,
           aggregate_version: event.aggregate_version,
+          aggregate_type: event.aggregate_type.to_s,
           event_name: event.event_name,
           event_data: event.event_data,
           timestamp: timestamp
@@ -71,11 +82,11 @@ module SandthornDriverSequel
       raise Errors::EventFormatError, "Event has wrong format: #{event.inspect}"
     end
 
-    def store_event(aggregate, timestamp, event)
+    def store_event(timestamp, event)
       event = EventWrapper.new(event)
-      aggregate.aggregate_version += 1
-      check_versions!(aggregate, event)
-      data = build_event_data(aggregate, timestamp, event)
+      #aggregate.aggregate_version += 1
+      #check_versions!(aggregate, event)
+      data = build_event_data(timestamp, event)
       storage.events.insert(data)
     end
 

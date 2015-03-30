@@ -4,18 +4,22 @@ module SandthornDriverSequel
 
     attr_reader :driver, :context, :url
 
-    def initialize url: nil, context: nil
+    def initialize url: nil, context: nil, file_output: {}
       @driver = SequelDriver.new url: url
       @context = context
       @url = url
+      #@file_output = file_output
+      driver.execute do |db|
+        @storage = Storage.new(db, context, file_output: file_output)
+      end
     end
 
     def save_events events, aggregate_id, class_name
       driver.execute_in_transaction do |db|
-        aggregates = get_aggregate_access(db)
+        #aggregates = get_aggregate_access(db)
         event_access = get_event_access(db)
-        aggregate = aggregates.find_or_register(aggregate_id, class_name)
-        event_access.store_events(aggregate, events)
+        events = events.map { |event| event[:aggregate_type] = class_name; event[:aggregate_id] = aggregate_id; event;}
+        event_access.store_events(events)
       end
     end
 
@@ -38,9 +42,9 @@ module SandthornDriverSequel
     # TODO: needs a better name
     def get_aggregate_events_from_snapshot(aggregate_id)
       driver.execute do |db|
-        snapshots = get_snapshot_access(db)
+        #snapshots = get_snapshot_access(db)
         event_access = get_event_access(db)
-        snapshot = snapshots.find_by_aggregate_id(aggregate_id)
+        snapshot = false#snapshots.find_by_aggregate_id(aggregate_id)
         if snapshot
           events = event_access.after_snapshot(snapshot)
           snapshot_event = build_snapshot_event(snapshot)
@@ -66,7 +70,7 @@ module SandthornDriverSequel
 
     def get_aggregate_ids(aggregate_type: nil)
       driver.execute do |db|
-        access = get_aggregate_access(db)
+        access = get_event_access(db)
         access.aggregate_ids(aggregate_type: aggregate_type)
       end
     end
@@ -131,7 +135,8 @@ module SandthornDriverSequel
     end
 
     def storage(db)
-      Storage.new(db, context)
+      @storage
+      #Storage.new(db, context, file_output: @file_output)
     end
 
   end

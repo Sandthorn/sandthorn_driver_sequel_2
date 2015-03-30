@@ -11,20 +11,20 @@ module SandthornDriverSequel
     let(:driver) { SequelDriver.new(event_store_url)}
     let(:storage) { Storage.new(db, context) }
 
-    describe "anonymous aggegrate class" do
-      it "can insert and read data" do
-        create_aggregate
-        aggregate = storage.aggregates.first(aggregate_id: "foo", aggregate_type: "Foo")
-        expect(aggregate).to_not be_nil
-      end
+    # describe "anonymous aggegrate class" do
+    #   it "can insert and read data" do
+    #     create_aggregate
+    #     aggregate = storage.aggregates.first(aggregate_id: "foo", aggregate_type: "Foo")
+    #     expect(aggregate).to_not be_nil
+    #   end
 
-      it "can update data" do
-        create_aggregate
-        storage.aggregates.where(aggregate_id: "foo").update(aggregate_version: 2)
-        aggregate = storage.aggregates.first(aggregate_id: "foo")
-        expect(aggregate.aggregate_version).to eq(2)
-      end
-    end
+    #   it "can update data" do
+    #     create_aggregate
+    #     storage.aggregates.where(aggregate_id: "foo").update(aggregate_version: 2)
+    #     aggregate = storage.aggregates.first(aggregate_id: "foo")
+    #     expect(aggregate.aggregate_version).to eq(2)
+    #   end
+    # end
 
     describe "anonymous event class" do
       it "can insert and read data" do
@@ -45,16 +45,15 @@ module SandthornDriverSequel
       end
     end
 
-    def create_aggregate
-      storage.aggregates.insert(aggregate_id: "foo", aggregate_type: "Foo")
-    end
+    # def create_aggregate
+    #   storage.aggregates.insert(aggregate_id: "foo", aggregate_type: "Foo")
+    # end
 
     def create_event
-      aggregate_table_id = create_aggregate
       data = {
-          #aggregate_table_id: aggregate_table_id,
           aggregate_id: "foo",
           aggregate_version: 1,
+          aggregate_type: "Foo",
           event_name: "foo",
           event_data: "bar",
           timestamp: Time.now.utc

@@ -54,19 +54,19 @@ module SandthornDriverSequel
 				event_store.save_events test_events_2, aggregate_id_3, String
       end
 
-			it "both types should exist in get_all_typenames in alphabetical order" do
-				names = event_store.get_all_types
-				expect(names.length).to eql 2
-				expect(names.first).to eql "Hash"
-				expect(names.last).to eql "String"
-      end
+			# it "both types should exist in get_all_typenames in alphabetical order" do
+			# 	names = event_store.get_all_types
+			# 	expect(names.length).to eql 2
+			# 	expect(names.first).to eql "Hash"
+			# 	expect(names.last).to eql "String"
+   #    end
 
-			it "should list the aggregate ids when asking for get_aggregate_list_by_typename" do
-				ids = event_store.get_aggregate_ids(aggregate_type: String)
-				expect(ids.length).to eql 2
-				expect(ids.any? { |e| e == aggregate_id_1 }).to be_truthy
-				expect(ids.any? { |e| e == aggregate_id_3 }).to be_truthy
-			end
+			# it "should list the aggregate ids when asking for get_aggregate_list_by_typename" do
+			# 	ids = event_store.get_aggregate_ids(aggregate_type: String)
+			# 	expect(ids.length).to eql 2
+			# 	expect(ids.any? { |e| e == aggregate_id_1 }).to be_truthy
+			# 	expect(ids.any? { |e| e == aggregate_id_3 }).to be_truthy
+			# end
     end
 
 		context "when saving events that are serilized with msgpack" do

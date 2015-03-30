@@ -1,15 +1,27 @@
 module SandthornDriverSequel
   module FileOutputWrapper
     class Aggregates
-      def initialize aggregate_file, sequel
+      def initialize aggregate_file
         @aggregate_file = aggregate_file
+        @file_cache = {}
+      end
+
+      def aggregates sequel
         @sequel = sequel
+        self
       end
 
       def insert *args
-        args.each do |event|
-          @aggregate_file.puts "#{event[:aggregate_id]}, #{event[:aggregate_type]}"
+        args.each do |aggregate|
+          #@aggregate_file.puts "#{aggregate[:aggregate_id]}, #{aggregate[:aggregate_type]}"
+          @file_cache[aggregate[:aggregate_id]] = aggregate
         end
+        return args.first[:aggregate_id]
+      end
+
+      def [] *args
+        return AggregateFile.new(@aggregate_file, @file_cache, @file_cache[args.first][:aggregate_id], @file_cache[args.first][:aggregate_type]) if @file_cache[args.first]
+        @sequel[*args]
       end
 
       def save *args
@@ -29,5 +41,24 @@ module SandthornDriverSequel
       end
 
     end
+
+    class AggregateFile
+
+      attr_accessor :aggregate_id, :aggregate_type, :aggregate_version
+
+      def initialize aggregate_file, file_cache, aggregate_id, aggregate_type, aggregate_version: 0
+        @aggregate_file = aggregate_file
+        @file_cache = file_cache
+        @aggregate_id = aggregate_id
+        @aggregate_type = aggregate_type
+        @aggregate_version = aggregate_version
+      end
+
+      def save
+        @file_cache[:aggregate_id] = {aggregate_id: @aggregate_id, aggregate_version: @aggregate_version, aggregate_type: @aggregate_type}
+        @aggregate_file.puts "#{@aggregate_id};#{@aggregate_type};#{@aggregate_version}"
+      end
+    end
+    AggregateObject = Struct.new(:aggregate_id, :aggregate_version)
   end
 end

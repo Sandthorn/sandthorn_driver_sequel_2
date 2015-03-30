@@ -13,8 +13,8 @@ require 'sandthorn_driver_sequel/file_output_wrappers/events'
 
 module SandthornDriverSequel
   class << self
-    def driver_from_url url: nil, context: nil
-      EventStore.new url: url, context: context
+    def driver_from_url url: nil, context: nil, file_output: {}
+      EventStore.new url: url, context: context, file_output: file_output 
     end
     def migrate_db url: nil, context: nil
       migrator = Migration.new url: url, context: context
@@ -22,3 +22,4 @@ module SandthornDriverSequel
     end
   end
 end
+
