@@ -8,7 +8,7 @@ module SandthornDriverSequel
       @driver = SequelDriver.new url: url
       @context = context
       @url = url
-      #@file_output = file_output
+
       driver.execute do |db|
         @storage = Storage.new(db, context, file_output: file_output)
       end

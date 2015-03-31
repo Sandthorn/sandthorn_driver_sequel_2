@@ -14,7 +14,9 @@ module SandthornDriverSequel
       @db = db
       @context = context
       @event_file = File.open(file_output[:events], "a") if file_output[:events]
-      @event_file_output_wrapper = FileOutputWrapper::Events.new @event_file, 0 if @event_file
+      last_event = events_table.order(:sequence_number).limit(1).last
+      last_sequence_number = last_event ? last_event[:sequence_number] : 0
+      @event_file_output_wrapper = FileOutputWrapper::Events.new @event_file, last_sequence_number if @event_file
     end
 
     # Returns a Sequel::Model for accessing events
