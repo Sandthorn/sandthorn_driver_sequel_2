@@ -1,6 +1,6 @@
 [![Code Climate](https://codeclimate.com/github/Sandthorn/sandthorn_driver_sequel.png)](https://codeclimate.com/github/Sandthorn/sandthorn_driver_sequel)
 
-# Sandthorn Sequel-driver
+# Sandthorn Sequel-driver 2
 
 A SQL database driver for [Sandthorn](https://github.com/Sandthorn/sandthorn), made with [Sequel](http://sequel.jeremyevans.net/).
 
@@ -8,7 +8,7 @@ A SQL database driver for [Sandthorn](https://github.com/Sandthorn/sandthorn), m
 
 Add this line to your application's Gemfile:
 
-    gem 'sandthorn_driver_sequel'
+    gem 'sandthorn_driver_sequel_2'
 
 And then execute:
 
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install sandthorn_driver_sequel
+    $ gem install sandthorn_driver_sequel_2
 
 ## Usage
 
