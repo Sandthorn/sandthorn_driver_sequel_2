@@ -59,14 +59,9 @@ module SandthornDriverSequel
 
     def add_aggregate_types(query, aggregate_types)
       if aggregate_types.any?
-
-        #query.join(storage.aggregates, aggregate_id: :aggregate_id, aggregate_type: aggregate_types)
         query = query.where( :aggregate_type => aggregate_types )
       end
       query
-      #else
-      #  query.join(storage.aggregates, aggregate_id: :aggregate_id)
-      #end
     end
 
   end

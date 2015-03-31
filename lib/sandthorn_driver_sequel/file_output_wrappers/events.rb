@@ -3,7 +3,6 @@ module SandthornDriverSequel
     class Events
       def initialize event_file, sequence_number
         @event_file = event_file
-        #@sequel = sequel
         @sequence_number = sequence_number
       end
 

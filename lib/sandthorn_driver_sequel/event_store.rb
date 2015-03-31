@@ -16,7 +16,6 @@ module SandthornDriverSequel
 
     def save_events events, aggregate_id, class_name
       driver.execute_in_transaction do |db|
-        #aggregates = get_aggregate_access(db)
         event_access = get_event_access(db)
         events = events.map { |event| event[:aggregate_type] = class_name; event[:aggregate_id] = aggregate_id; event;}
         event_access.store_events(events)
@@ -80,12 +79,12 @@ module SandthornDriverSequel
       get_aggregate_ids(type: type)
     end
 
-    def get_all_types
-      driver.execute do |db|
-        access = get_aggregate_access(db)
-        access.aggregate_types
-      end
-    end
+    # def get_all_types
+    #   driver.execute do |db|
+    #     access = get_aggregate_access(db)
+    #     access.aggregate_types
+    #   end
+    # end
 
     def get_snapshot aggregate_id
       driver.execute do |db|
@@ -120,10 +119,6 @@ module SandthornDriverSequel
           aggregate_version: snapshot.aggregate_version,
           event_data: snapshot.snapshot_data
       }
-    end
-
-    def get_aggregate_access(db)
-      AggregateAccess.new(storage(db))
     end
 
     def get_event_access(db)

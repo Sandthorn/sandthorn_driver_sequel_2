@@ -8,7 +8,6 @@ require "sandthorn_driver_sequel/storage"
 require 'sandthorn_driver_sequel/event_store'
 require 'sandthorn_driver_sequel/errors'
 require 'sandthorn_driver_sequel/migration'
-require 'sandthorn_driver_sequel/file_output_wrappers/aggregates'
 require 'sandthorn_driver_sequel/file_output_wrappers/events'
 
 module SandthornDriverSequel
