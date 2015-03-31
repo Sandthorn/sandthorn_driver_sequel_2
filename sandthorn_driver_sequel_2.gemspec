@@ -1,7 +1,7 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sandthorn_driver_sequel/version'
+require 'sandthorn_driver_sequel_2/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "sandthorn_driver_sequel_2"
