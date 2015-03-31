@@ -1,6 +1,9 @@
+require 'forwardable'
+
 module SandthornDriverSequel2
   module FileOutputWrapper
     class Events
+      extend Forwardable
       def initialize event_file, sequence_number
         @event_file = event_file
         @sequence_number = sequence_number
@@ -20,36 +23,15 @@ module SandthornDriverSequel2
         end
       end
 
+      def_delegators :@sequel, :first, :where, :join, :select, :all
+
       def save *args
         @event_file.write args
-      end
-
-      def first *args
-        @sequel.first *args
-      end
-
-      def where *args
-        @sequel.where *args
-      end
-
-      def join *args
-        @sequel.join *args
-      end
-
-      def select *args
-        @sequel.select *args
-      end
-
-      def all *args
-        @sequel.all *args
       end
 
       def flush
         @event_file.flush
       end
-
-
-
     end
   end
 end  
