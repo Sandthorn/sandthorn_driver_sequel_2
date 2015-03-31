@@ -1,6 +1,6 @@
 # require 'spec_helper'
 
-# module SandthornDriverSequel
+# module SandthornDriverSequel2
 #   describe SnapshotAccess do
 #     include EventStoreContext
 

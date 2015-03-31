@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module SandthornDriverSequel
+module SandthornDriverSequel2
 	describe EventStore do
 		before(:each) { prepare_for_test }
 		let(:test_events_a) do
@@ -27,9 +27,9 @@ module SandthornDriverSequel
 		end
 		let(:aggregate_id_c) {"c0456e26-2345-4f67-92fa-130b3a31a39a"}
 		before(:each) do
-			event_store.save_events test_events_a, aggregate_id_a, SandthornDriverSequel::EventStore
+			event_store.save_events test_events_a, aggregate_id_a, SandthornDriverSequel2::EventStore
 			event_store.save_events test_events_c, aggregate_id_c, String
-			event_store.save_events test_events_b, aggregate_id_b, SandthornDriverSequel::SequelDriver
+			event_store.save_events test_events_b, aggregate_id_b, SandthornDriverSequel2::SequelDriver
 			event_store.save_events test_events_c_2, aggregate_id_c, String
 		end
 
@@ -57,8 +57,8 @@ module SandthornDriverSequel
 				end
 				
 			end
-			context "and getting events for SandthornDriverSequel::EventStore, and String after 0" do
-				let(:events) {event_store.get_events after_sequence_number: 0, aggregate_types: [SandthornDriverSequel::EventStore, String]}
+			context "and getting events for SandthornDriverSequel2::EventStore, and String after 0" do
+				let(:events) {event_store.get_events after_sequence_number: 0, aggregate_types: [SandthornDriverSequel2::EventStore, String]}
 				it "should find 5 events" do
 					expect(events.length).to eql 5
 				end
@@ -70,8 +70,8 @@ module SandthornDriverSequel
 					events.each { |e| expect([aggregate_id_a, aggregate_id_c].include?(e[:aggregate_id])).to be_truthy }
 				end
 			end
-			context "and getting events for SandthornDriverSequel::EventStore after 0" do
-				let(:events) {event_store.get_events after_sequence_number: 0, aggregate_types: [SandthornDriverSequel::EventStore]}
+			context "and getting events for SandthornDriverSequel2::EventStore after 0" do
+				let(:events) {event_store.get_events after_sequence_number: 0, aggregate_types: [SandthornDriverSequel2::EventStore]}
 				it "should find 3 events" do
 					expect(events.length).to eql 3
 				end
@@ -85,8 +85,8 @@ module SandthornDriverSequel
 			end
 		end
 		context "when using :get_new_events_after_event_id_matching_classname to get events" do
-			context "and getting events for SandthornDriverSequel::EventStore after 0" do
-				let(:events) {event_store.get_new_events_after_event_id_matching_classname 0, SandthornDriverSequel::EventStore}
+			context "and getting events for SandthornDriverSequel2::EventStore after 0" do
+				let(:events) {event_store.get_new_events_after_event_id_matching_classname 0, SandthornDriverSequel2::EventStore}
 				it "should find 3 events" do
 					expect(events.length).to eql 3
 				end
@@ -99,12 +99,12 @@ module SandthornDriverSequel
 				end
 				it "should be able to get events after a sequence number" do
 					new_from = events[1][:sequence_number]
-					ev = event_store.get_new_events_after_event_id_matching_classname new_from, SandthornDriverSequel::EventStore
+					ev = event_store.get_new_events_after_event_id_matching_classname new_from, SandthornDriverSequel2::EventStore
 					expect(ev.last[:aggregate_version]).to eql 3
 					expect(ev.length).to eql 1
 				end
 				it "should be able to limit the number of results" do
-					ev = event_store.get_new_events_after_event_id_matching_classname 0, SandthornDriverSequel::EventStore, take: 2
+					ev = event_store.get_new_events_after_event_id_matching_classname 0, SandthornDriverSequel2::EventStore, take: 2
 					expect(ev.length).to eql 2
 					expect(ev.last[:aggregate_version]).to eql 2
 				end

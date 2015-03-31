@@ -33,41 +33,41 @@ module Sandthorn
       describe "save" do
         it "one event save 500 times" do
           Benchmark.bm do |x|
-            x.report("new change save find") { for i in 1..n; es.save_events(test_events_one_event, 0, i.to_s, SandthornDriverSequel::EventStore); end }
+            x.report("new change save find") { for i in 1..n; es.save_events(test_events_one_event, 0, i.to_s, SandthornDriverSequel2::EventStore); end }
           end
         end
         it "two events save 500 times" do
           Benchmark.bm do |x|
-            x.report("new change save find") { for i in 1..n; es.save_events(test_events_two_events, 0, i.to_s, SandthornDriverSequel::EventStore); end }
+            x.report("new change save find") { for i in 1..n; es.save_events(test_events_two_events, 0, i.to_s, SandthornDriverSequel2::EventStore); end }
           end
         end
         it "twenty events save 500 times" do
           Benchmark.bm do |x|
-            x.report("new change save find") { for i in 1..n; es.save_events(test_events_20_events, 0, i.to_s, SandthornDriverSequel::EventStore); end }
+            x.report("new change save find") { for i in 1..n; es.save_events(test_events_20_events, 0, i.to_s, SandthornDriverSequel2::EventStore); end }
           end
         end
       end
 
       describe "find" do
         it "should find one event 500 times" do
-          es.save_events(test_events_one_event, 0, aggregate_id, SandthornDriverSequel::EventStore)
+          es.save_events(test_events_one_event, 0, aggregate_id, SandthornDriverSequel2::EventStore)
 
           Benchmark.bm do |x|
-            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel::EventStore);  end }
+            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel2::EventStore);  end }
           end
         end
         it "should find two events 500 times" do
-          es.save_events(test_events_two_events, 0, aggregate_id, SandthornDriverSequel::EventStore)
+          es.save_events(test_events_two_events, 0, aggregate_id, SandthornDriverSequel2::EventStore)
 
           Benchmark.bm do |x|
-            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel::EventStore);  end }
+            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel2::EventStore);  end }
           end
         end
         it "should find twenty events 500 times" do
-          es.save_events(test_events_20_events, 0, aggregate_id, SandthornDriverSequel::EventStore)
+          es.save_events(test_events_20_events, 0, aggregate_id, SandthornDriverSequel2::EventStore)
 
           Benchmark.bm do |x|
-            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel::EventStore);  end }
+            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel2::EventStore);  end }
           end
         end
 
@@ -76,28 +76,28 @@ module Sandthorn
 
         it "should find one event that is snapshoted 500 times" do
           snapshot_data = { event_data: YAML.dump(Object.new), aggregate_version: 1 } 
-          es.save_events(test_events_one_event, 0, aggregate_id, SandthornDriverSequel::EventStore)
-          es.save_snapshot(snapshot_data, aggregate_id, SandthornDriverSequel::EventStore)
+          es.save_events(test_events_one_event, 0, aggregate_id, SandthornDriverSequel2::EventStore)
+          es.save_snapshot(snapshot_data, aggregate_id, SandthornDriverSequel2::EventStore)
 
           Benchmark.bm do |x|
-            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel::EventStore);  end }
+            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel2::EventStore);  end }
           end
         end
         it "should find two events that is snapshoted 500 times" do
           snapshot_data = { event_data: YAML.dump(Object.new), aggregate_version: 2 } 
-          es.save_events(test_events_two_events, 0, aggregate_id, SandthornDriverSequel::EventStore)
-          es.save_snapshot(snapshot_data, aggregate_id, SandthornDriverSequel::EventStore)
+          es.save_events(test_events_two_events, 0, aggregate_id, SandthornDriverSequel2::EventStore)
+          es.save_snapshot(snapshot_data, aggregate_id, SandthornDriverSequel2::EventStore)
           Benchmark.bm do |x|
-            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel::EventStore);  end }
+            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel2::EventStore);  end }
           end
         end
         it "should find twenty events that is snapshoted 500 times" do
           snapshot_data = { event_data: YAML.dump(Object.new), aggregate_version: 19 } 
-          es.save_events(test_events_20_events, 0, aggregate_id, SandthornDriverSequel::EventStore)
-          es.save_snapshot(snapshot_data, aggregate_id, SandthornDriverSequel::EventStore)
+          es.save_events(test_events_20_events, 0, aggregate_id, SandthornDriverSequel2::EventStore)
+          es.save_snapshot(snapshot_data, aggregate_id, SandthornDriverSequel2::EventStore)
 
           Benchmark.bm do |x|
-            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel::EventStore);  end }
+            x.report("find") { for i in 1..n; es.get_aggregate(aggregate_id, SandthornDriverSequel2::EventStore);  end }
           end
         end
 
@@ -105,7 +105,7 @@ module Sandthorn
       # it "new save and find 500 aggregates" do
 
       #   Benchmark.bm do |x|
-      #     x.report("new change save find") { for i in 1..n; es.save_events(test_events_a, 0, i.to_s, SandthornDriverSequel::EventStore); es.get_aggregate(i.to_s, SandthornDriverSequel::EventStore);  end }
+      #     x.report("new change save find") { for i in 1..n; es.save_events(test_events_a, 0, i.to_s, SandthornDriverSequel2::EventStore); es.get_aggregate(i.to_s, SandthornDriverSequel2::EventStore);  end }
       #   end
 
       # end

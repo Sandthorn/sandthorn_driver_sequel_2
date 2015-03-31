@@ -1,4 +1,4 @@
-module SandthornDriverSequel::Errors
+module SandthornDriverSequel2::Errors
   Error = Class.new(StandardError)
   InternalError = Class.new(Error)
   NoAggregateError = Class.new(Error)

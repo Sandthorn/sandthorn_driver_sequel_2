@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'msgpack'
 
-module SandthornDriverSequel
+module SandthornDriverSequel2
 	describe EventStore do
 		before(:each) { prepare_for_test }
 		context "when saving a prefectly sane event stream" do

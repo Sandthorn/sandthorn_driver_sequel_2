@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module SandthornDriverSequel
+module SandthornDriverSequel2
 
   describe Storage do
     let(:context) { :test }

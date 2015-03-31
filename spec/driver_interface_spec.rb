@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module SandthornDriverSequel
+module SandthornDriverSequel2
 	describe EventStore do
 		before(:each) { prepare_for_test }
 		context "interface structure" do

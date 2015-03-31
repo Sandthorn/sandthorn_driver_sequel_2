@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   module Access
     class Base
       # = Access::Base
@@ -15,5 +15,5 @@ module SandthornDriverSequel
   end
 end
 
-require "sandthorn_driver_sequel/access/event_access"
-require "sandthorn_driver_sequel/access/snapshot_access"
+require "sandthorn_driver_sequel_2/access/event_access"
+require "sandthorn_driver_sequel_2/access/snapshot_access"

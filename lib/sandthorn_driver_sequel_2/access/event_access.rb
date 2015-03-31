@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   class EventAccess < Access::Base
     # = EventAccess
     # Reads and writes events.

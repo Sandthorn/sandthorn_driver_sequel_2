@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   module FileOutputWrapper
     class Events
       def initialize event_file, sequence_number

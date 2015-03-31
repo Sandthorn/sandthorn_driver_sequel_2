@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   class EventQuery
     def initialize(storage)
       @storage = storage

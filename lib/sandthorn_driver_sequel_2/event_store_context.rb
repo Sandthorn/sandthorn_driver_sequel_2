@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   module EventStoreContext
     attr_reader :context
     def events_table_name

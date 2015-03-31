@@ -1,5 +1,5 @@
-require 'sandthorn_driver_sequel/sequel_driver'
-module SandthornDriverSequel
+require 'sandthorn_driver_sequel_2/sequel_driver'
+module SandthornDriverSequel2
   class Migration
     include EventStoreContext
     attr_reader :driver, :context

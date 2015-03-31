@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module SandthornDriverSequel
+module SandthornDriverSequel2
 	describe Migration do
 		def check_tables context = nil
 			events = :events

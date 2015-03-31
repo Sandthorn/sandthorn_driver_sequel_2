@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   module Utilities
     def self.array_wrap(object)
       if object.nil?

@@ -1,5 +1,5 @@
 require 'spec_helper'
-module SandthornDriverSequel
+module SandthornDriverSequel2
 	describe EventStore do
 		let(:context) { :event_store_spec }
 		before(:each) { prepare_for_test context: context; prepare_for_test context: nil; }

@@ -1,7 +1,7 @@
 # require 'spec_helper'
 # require 'yaml'
 
-# module SandthornDriverSequel
+# module SandthornDriverSequel2
 # 	describe EventStore do
 # 		before(:each) { prepare_for_test }
 # 		let(:aggregate_id) { @id ||= UUIDTools::UUID.random_create.to_s }
@@ -9,8 +9,8 @@
 # 		let(:additional_events) { [{aggregate_version: 3, event_data: nil, event_name: "klopp"},{aggregate_version: 4, event_data: nil, event_name: "flipp"}] } 
 # 		let(:snapshot_data) { { event_data: YAML.dump(Object.new), aggregate_version: 2 } }		
 # 		let(:save_snapshot) { event_store.save_snapshot snapshot_data, aggregate_id }
-# 		let(:save_events) { event_store.save_events test_events, aggregate_id, SandthornDriverSequel::EventStore }
-# 		let(:save_additional_events) { event_store.save_events additional_events, aggregate_id, SandthornDriverSequel::EventStore }
+# 		let(:save_events) { event_store.save_events test_events, aggregate_id, SandthornDriverSequel2::EventStore }
+# 		let(:save_additional_events) { event_store.save_events additional_events, aggregate_id, SandthornDriverSequel2::EventStore }
 # 		context "when loading an aggregate using get_aggregate" do
 # 			context "and it has a snapshot" do
 # 				before(:each) do
@@ -18,7 +18,7 @@
 # 					save_snapshot
 # 					save_additional_events
 # 				end
-# 				let(:events) { event_store.get_aggregate aggregate_id, SandthornDriverSequel::EventStore }
+# 				let(:events) { event_store.get_aggregate aggregate_id, SandthornDriverSequel2::EventStore }
 # 				it "should have the first event as :aggregate_set_from_snapshot" do
 # 					expect(events.first[:event_name]).to eql "aggregate_set_from_snapshot"
 # 				end
@@ -45,7 +45,7 @@
 # 			end
 # 			context "when trying to save a snapshot on a non-existing aggregate" do
 # 				it "should raise a NonAggregateError" do
-# 					expect { save_snapshot }.to raise_error SandthornDriverSequel::Errors::NoAggregateError
+# 					expect { save_snapshot }.to raise_error SandthornDriverSequel2::Errors::NoAggregateError
 # 				end
 # 			end
 # 			context "when trying to save a snapshot with a non-existing aggregate_version" do
@@ -53,7 +53,7 @@
 # 				it "should raise a WrongAggregateVersion error" do
 # 					data = snapshot_data
 # 					data[:aggregate_version] = 100
-# 					expect { event_store.save_snapshot data, aggregate_id }.to raise_error SandthornDriverSequel::Errors::WrongSnapshotVersionError
+# 					expect { event_store.save_snapshot data, aggregate_id }.to raise_error SandthornDriverSequel2::Errors::WrongSnapshotVersionError
 # 				end
 # 			end
 # 			context "when saving a snapshot twice" do

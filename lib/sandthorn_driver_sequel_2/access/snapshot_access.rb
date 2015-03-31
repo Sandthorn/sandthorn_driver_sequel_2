@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   class SnapshotAccess < Access::Base
 
     def find_by_aggregate_id(aggregate_id)

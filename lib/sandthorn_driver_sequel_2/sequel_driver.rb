@@ -1,6 +1,6 @@
 require 'sequel'
 
-module SandthornDriverSequel
+module SandthornDriverSequel2
   class SequelDriver
 
     def initialize args = {}

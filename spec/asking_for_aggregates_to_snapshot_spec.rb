@@ -3,7 +3,7 @@
 # class Foo; end
 # class Bar; end
 
-# module SandthornDriverSequel
+# module SandthornDriverSequel2
 
 # 	describe EventStore do
 # 		before(:each) { prepare_for_test }

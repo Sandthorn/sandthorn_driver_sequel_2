@@ -4,12 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'sandthorn_driver_sequel/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sandthorn_driver_sequel"
-  spec.version       = SandthornDriverSequel::VERSION
+  spec.name          = "sandthorn_driver_sequel_2"
+  spec.version       = SandthornDriverSequel2::VERSION
   spec.authors       = ["Lars Krantz", "Morgan Hallgren", "Jesper Josefsson"]
   spec.email         = ["lars.krantz@alaz.se", "morgan.hallgren@gmail.com", "jesper.josefsson@gmail.com"]
   spec.description   = %q{Sequel driver for Sandthorn}
-  spec.summary       = %q{Sequel driver for Sandthorn}
+  spec.summary       = %q{Sequel driver for Sandthorn that store all data to events table and makes it possible to dump instert to disk}
   spec.homepage      = ""
   spec.license       = "MIT"
 

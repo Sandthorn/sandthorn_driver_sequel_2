@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   class Storage
     # = Storage
     # Abstracts access to contextualized database tables.

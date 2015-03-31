@@ -1,4 +1,4 @@
-module SandthornDriverSequel
+module SandthornDriverSequel2
   class SnapshotWrapper < SimpleDelegator
     def aggregate_version
       self[:aggregate_version]

@@ -1,5 +1,5 @@
-require 'sandthorn_driver_sequel'
-require 'sandthorn_driver_sequel/migration'
+require 'sandthorn_driver_sequel_2'
+require 'sandthorn_driver_sequel_2/migration'
 require 'ap'
 require 'uuidtools'
 
@@ -16,7 +16,7 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 def prepare_for_test context: :test
-  migrator = SandthornDriverSequel::Migration.new url: event_store_url, context: context
+  migrator = SandthornDriverSequel2::Migration.new url: event_store_url, context: context
   migrator.migrate!
   migrator.send(:clear_for_test)
 end
@@ -27,5 +27,5 @@ def event_store_url
 end
 
 def event_store context: :test
-  SandthornDriverSequel::EventStore.new url: event_store_url, context: context
+  SandthornDriverSequel2::EventStore.new url: event_store_url, context: context
 end
