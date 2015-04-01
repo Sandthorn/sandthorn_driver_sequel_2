@@ -9,7 +9,7 @@ module SandthornDriverSequel2
     end
     let(:db) { Sequel.connect(event_store_url) }
     let(:driver) { SequelDriver.new(event_store_url)}
-    let(:storage) { Storage.new(db, context) }
+    let(:storage) { Storage.new(db, context, nil) }
 
     # describe "anonymous aggegrate class" do
     #   it "can insert and read data" do
