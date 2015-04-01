@@ -26,7 +26,7 @@ Or install it yourself as:
 
 Its possible to setup the EventStore with the events_file_path option, this will make the EventStore output all its events to this file path.
 
-$ SandthornDriverSequel2.driver_from_url(url: event_store_url, events_file_path: "../events.csv")
+    SandthornDriverSequel2.driver_from_url(url: event_store_url, events_file_path: "../events.csv")
 
 ## Contributing
 
