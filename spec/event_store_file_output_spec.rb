@@ -5,7 +5,7 @@ module SandthornDriverSequel2
 		#after(:each) {File.delete(aggregates_file); File.delete(events_file);}
 		let(:events_file) {"spec/db_file/test_events.csv"}
 		let(:aggregates_file) {"spec/db_file/test_aggregates.csv"}
-		let(:event_store_file_output) { EventStore.new url: event_store_url, file_output: {aggregates: aggregates_file, events: events_file} }
+		let(:event_store_file_output) { EventStore.new url: event_store_url, events_file_path: events_file }
 		
 		let(:test_events) do
 				e = [] 

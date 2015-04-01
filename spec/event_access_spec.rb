@@ -14,7 +14,7 @@ module SandthornDriverSequel2
     let(:aggregate) do
       aggregate_access.register_aggregate(aggregate_id, "foo")
     end
-    let(:storage) { Storage.new(db, :test) }
+    let(:storage) { Storage.new(db, :test, nil) }
     let(:aggregate_access) { AggregateAccess.new(storage) }
     let(:snapshot_access) { SnapshotAccess.new(storage)}
     let(:access) { EventAccess.new(storage) }

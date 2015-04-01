@@ -17,7 +17,7 @@ module SandthornDriverSequel2
       end
       let(:db) { Sequel.connect(event_store_url) }
       let(:driver) { SequelDriver.new(event_store_url)}
-      let(:storage) { Storage.new(db, context, file_output: { events: event_file}) }
+      let(:storage) { Storage.new(db, context, event_file) }
 
       describe "anonymous event class" do
         it "insert no data to the db" do
