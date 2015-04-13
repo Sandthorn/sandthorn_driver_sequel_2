@@ -24,9 +24,9 @@ Or install it yourself as:
 
 ## Usage
 
-Its possible to setup the EventStore with the events_file_path option, this will make the EventStore output all its events to this file path.
+Its possible to setup the EventStore with a file_output_options: hash, this will make the EventStore output all its events to a file on disk. The file path is the :events_file_path key in the hash. It´s possible to specify a custom delimiter intead of the default ','.
 
-    SandthornDriverSequel2.driver_from_url(url: event_store_url, events_file_path: "../events.csv")
+    SandthornDriverSequel2.driver_from_url(url: event_store_url, file_output_options: {events_file_path: "../events.csv", delimiter: ';'})
 
 ## Contributing
 
