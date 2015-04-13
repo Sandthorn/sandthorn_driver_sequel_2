@@ -10,13 +10,21 @@ module SandthornDriverSequel2
 
     attr_reader :db
 
-    def initialize(db, context, events_file_path)
+    def initialize(db, context, file_output_options)
       @db = db
       @context = context
-      @event_file = File.open(events_file_path, "a") if events_file_path
+      @event_file = File.open(file_output_options[:events_file_path], "a") if file_output_options[:events_file_path]
       last_event = events_table.order(:sequence_number).limit(1).last
       last_sequence_number = last_event ? last_event[:sequence_number] : 0
-      @event_file_output_wrapper = FileOutputWrapper::Events.new @event_file, last_sequence_number if @event_file
+
+      if @event_file
+        if file_output_options[:delimiter]
+          @event_file_output_wrapper = FileOutputWrapper::Events.new @event_file, last_sequence_number, delimiter: file_output_options[:delimiter]
+        else
+          @event_file_output_wrapper = FileOutputWrapper::Events.new @event_file, last_sequence_number
+        end
+      end
+
     end
 
     # Returns a Sequel::Model for accessing events

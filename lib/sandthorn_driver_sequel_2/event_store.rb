@@ -4,13 +4,13 @@ module SandthornDriverSequel2
 
     attr_reader :driver, :context, :url
 
-    def initialize url: nil, context: nil, events_file_path: nil
+    def initialize url: nil, context: nil, file_output_options: {}
       @driver = SequelDriver.new url: url
       @context = context
       @url = url
 
       driver.execute do |db|
-        @storage = Storage.new(db, context, events_file_path)
+        @storage = Storage.new(db, context, file_output_options)
       end
     end
 
