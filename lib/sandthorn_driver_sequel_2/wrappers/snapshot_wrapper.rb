@@ -8,8 +8,5 @@ module SandthornDriverSequel2
       self[:event_data]
     end
 
-    # def aggregate_type
-    # 	self[:aggregate_type]
-    # end
   end
 end
