@@ -28,6 +28,10 @@ Its possible to setup the EventStore with a file_output_options: hash, this will
 
     SandthornDriverSequel2.driver_from_url(url: event_store_url, file_output_options: {events_file_path: "../events.csv", delimiter: ';'})
 
+## Todo
+
+ * Implement snapshoting, now all event of an aggregate has to be fetched to build the aggregate.
+
 ## Contributing
 
 1. Fork it
