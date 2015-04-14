@@ -11,11 +11,7 @@ module SandthornDriverSequel2
     let(:context) { :test }
     let(:db) { Sequel.connect(event_store_url)}
     let(:aggregate_id) { SecureRandom.uuid }
-    let(:aggregate) do
-      aggregate_access.register_aggregate(aggregate_id, "foo")
-    end
     let(:storage) { Storage.new(db, :test, {}) }
-    let(:aggregate_access) { AggregateAccess.new(storage) }
     let(:snapshot_access) { SnapshotAccess.new(storage)}
     let(:access) { EventAccess.new(storage) }
 
@@ -50,15 +46,6 @@ module SandthornDriverSequel2
         events = access.find_events_by_aggregate_id(aggregate_id)
         expect(events.map(&:timestamp).all?).to be_truthy
       end
-
-      # it "updates the aggregate version" do
-      #   access.store_events(events)
-      #   events = access.find_events_by_aggregate_id(aggregate_id)
-      #   version = events.map(&:aggregate_version).max
-
-      #   reloaded_aggregate = aggregate_access.find(aggregate.id)
-      #   expect(reloaded_aggregate.aggregate_version).to eq(version)
-      # end
 
       context "when the aggregate version of an event is incorrect" do
         it "throws an error" do

@@ -7,5 +7,9 @@ module SandthornDriverSequel2
     def data
       self[:event_data]
     end
+
+    # def aggregate_type
+    # 	self[:aggregate_type]
+    # end
   end
 end
