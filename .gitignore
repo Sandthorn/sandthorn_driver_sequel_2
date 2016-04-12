@@ -17,4 +17,4 @@ test/version_tmp
 tmp
 *.sqlite3
 .idea
-spec/db_file
+spec/db_file/test_events.csv
