@@ -41,9 +41,9 @@ module SandthornDriverSequel2
     # TODO: needs a better name
     def get_aggregate_events_from_snapshot(aggregate_id)
       driver.execute do |db|
-        #snapshots = get_snapshot_access(db)
+        snapshots = get_snapshot_access(db)
         event_access = get_event_access(db)
-        snapshot = false#snapshots.find_by_aggregate_id(aggregate_id)
+        snapshot = snapshots.find_by_aggregate_id(aggregate_id)
         if snapshot
           events = event_access.after_snapshot(snapshot)
           snapshot_event = build_snapshot_event(snapshot)
@@ -103,13 +103,6 @@ module SandthornDriverSequel2
 
     def get_new_events_after_event_id_matching_classname event_id, class_name, take: 0
       get_events(after_sequence_number: event_id, aggregate_types: Utilities.array_wrap(class_name), take: take)
-    end
-
-    def obsolete_snapshots(*args)
-      driver.execute do |db|
-        snapshots = get_snapshot_access(db)
-        snapshots.obsolete(*args)
-      end
     end
 
     private

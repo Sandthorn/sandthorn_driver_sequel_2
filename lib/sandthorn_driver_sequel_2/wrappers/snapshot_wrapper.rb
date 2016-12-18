@@ -7,5 +7,6 @@ module SandthornDriverSequel2
     def data
       self[:event_data]
     end
+
   end
 end
